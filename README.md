@@ -2,12 +2,12 @@
 
 #### GASを使ったビットコインの自動売買
 
-bitFlyerのAPIを使用して仮想通貨の売買を自動化するGoogle App Scriptのスクリプトです。
+bitFlyerのAPIを使用して仮想通貨の売買を自動化するGoogle Apps Scriptのスクリプトです。
 容易に自動化ができるように自動売買のクラスを作成しました。
 
 #### 動作概要
 
-Google App Script（GAS）のトリガーを使用して自動売買を行います。
+Google Apps Script（GAS）のトリガーを使用して自動売買を行います。
 
 # 利用方法
 
