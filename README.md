@@ -52,7 +52,38 @@ function myFunction() {
     API定義はAPIキー、APIシークレットです。
     ※これらの定義は機密情報となります。Webサイトに記載したり外部にでないよう注意が必要です。
 
-#### 4. トリガーを設定し自動実行
+#### 5. トリガーを設定し自動実行
 
     スクリプトのトリガーを指定します。
     例：5分に一回実行
+
+#### 6. データファイルの確認
+
+    売買を行った結果はスクリプトの格納場所に作成される「data.txt」に記述されます。
+    data.txt
+
+```
+{
+  "product_code": "BTC_JPY",
+  "child_order_type": "MARKET",
+  "side": "SELL",                   // 今回取引種別（SELL or BUY）
+  "price": 0,
+  "size": 0.001,                    // 今回取引単位（初期値：0.001）
+  "minute_to_expire": 300,
+  "time_in_force": "GTC",
+  "datetime": "2021/02/22 22:22:22",
+  "child_order_acceptance_id": "XXX20210222-123456-123456",
+  "ticker": 5616970,                // 今回取引価格
+  "message": "",
+  "p_ticker1": 5599358,             // 前回の取引価格（1回前）
+  "p_side1": "",                    // 前回の取引種別（1回前）
+  "p_message1": "",
+  ・・・・・・
+  "p_ticker10": 5677015,            // 前回の取引価格（10回前）
+  "p_side10": "",                   // 前回の取引種別（10回前）
+  "p_message10": "",
+  "prevticker": 5828286,            // 直近の取引価格（前回成立時）
+  "prevside": "BUY",                // 直近の取引種別（前回成立時）
+  "prevmessage": ""
+}
+```
