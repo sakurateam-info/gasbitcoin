@@ -66,14 +66,14 @@ class bitFlyer {
   }
   setData( obj ){
     this.setDataOption(obj);
-    if( 'ticker' in obj ) obj.p_ticker1 =  obj.ticker;
     if( 'side' in obj ) obj.p_side1 =  obj.side;
+    if( 'ticker' in obj ) obj.p_ticker1 =  obj.ticker;
     this.setPreviousData(obj);
   }
   setDataOption (obj) {
       for (var i = 1; i <= this.PREVIOUS_DATACOUNT; i++) {
-        obj['p_ticker' + i ] = 0;
         obj['p_side' + i ] =  '';
+        obj['p_ticker' + i ] = 0;
         obj['p_message' + i ] =  '';
       }
   }
@@ -81,8 +81,8 @@ class bitFlyer {
     var predata = this.getData();
     if( predata ) {
       for (var i = 1; i < this.PREVIOUS_DATACOUNT; i++) {
-          if( ( 'p_ticker' + i ) in predata ) obj['p_ticker' + (i + 1) ] =  predata['p_ticker' + i];
           if( ( 'p_side' + i ) in predata ) obj['p_side' + (i + 1) ] =  predata['p_side' + i];
+          if( ( 'p_ticker' + i ) in predata ) obj['p_ticker' + (i + 1) ] =  predata['p_ticker' + i];
           if( ( 'p_message' + i ) in predata ) obj['p_message' + (i + 1) ] =  predata['p_message' + i];
       }
       if( obj.p_side1 != '' ) {
