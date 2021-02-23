@@ -37,9 +37,9 @@ function myFunction() {
   var ticker = bit.getTicker();   // 現在価格を取得（条件等で使用する場合）
 
   if( data.side === "SELL" ) {
-    bit.setSendOrder('BUY');      // 売却（既定値は0.001BC）
+    bit.setSendOrder('BUY');      // 売却（既定値は0.001 BTC）
   } else {
-    bit.setSendOrder('SELL');     // 購入（既定値は0.001BC）
+    bit.setSendOrder('SELL');     // 購入（既定値は0.001 BTC）
   }
 
   bit.Log();                      // 結果表示
