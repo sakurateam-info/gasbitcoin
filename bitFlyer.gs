@@ -44,10 +44,10 @@ class bitFlyer {
       var m_subject = '',
           m_body = '';
       if( 'error' in para ) {
-        m_subject = "BC自動売買[エラー]" ;
+        m_subject = "BTC自動売買[エラー]" ;
         m_body = JSON.stringify(para);
       } else {
-        m_subject = "BC自動売買[" + para.side + "]"; 
+        m_subject = "BTC自動売買[" + para.side + "]"; 
         m_body = this.getTradeMessage(para) + "\n\n" + JSON.stringify(para, null, 2);
       }
       MailApp.sendEmail( this.BITFLYER_MAIL, m_subject, m_body);  
