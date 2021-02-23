@@ -1,11 +1,6 @@
 /**
  * -------------------------------------------------------------------
  * bitFlyerクラス
- *    getData()                                ：前回データJson取得
- *    getTicker()                              ：現在の取引価格取得
- *    setSendOrder({"SELL"or"BUY"},[message])  ：取引発行（売却or購入）
- *    setNoOrder([message])                    ：現在価格の記録のみ
- *    Log()                                    ：ログ表示
  * -------------------------------------------------------------------
  */
 class bitFlyer {
@@ -19,10 +14,10 @@ class bitFlyer {
     this.BITFLYER_OPTION =  {
       product_code      : 'BTC_JPY',    // 注文するプロダクト
       child_order_type  : 'MARKET',     // 指値注文の場合は "LIMIT", 成行注文の場合は "MARKET"
-      side              : 'BUY',        // 買い注文の場合は "BUY", 売り注文の場合は "SELL" 
-      price             : 0,			      // "LIMIT" を指定した場合は価格
+      side              : 'SELL',       // 買い注文の場合は "BUY", 売り注文の場合は "SELL" 
+      price             : 0,            // "LIMIT" を指定した場合は価格
       size              : 0.001,        // 注文数量(～0.001)
-      minute_to_expire  : 300,			    // 期限切れまでの時間を分で指定
+      minute_to_expire  : 300,          // 期限切れまでの時間を分で指定
       time_in_force     : 'GTC'         // 執行数量条件 を "GTC", "IOC", "FOK"
     };
     this.BITFLYER_MAIL =  '';           // 取引通知（取引結果をメールする場合はアドレスを指定）
