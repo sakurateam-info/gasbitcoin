@@ -41,7 +41,8 @@ class bitFlyer {
   }
   sendOrderMail(para) {
     if( this.BITFLYER_MAIL != '' ) {
-      var m_subject = m_body = '';
+      var m_subject = '',
+          m_body = '';
       if( 'error' in para ) {
         m_subject = "BC自動売買[エラー]" ;
         m_body = JSON.stringify(para);
