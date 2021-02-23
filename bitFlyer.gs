@@ -86,8 +86,8 @@ class bitFlyer {
           if( ( 'p_message' + i ) in predata ) obj['p_message' + (i + 1) ] =  predata['p_message' + i];
       }
       if( obj.p_side1 != '' ) {
-        obj.prevticker = predata.ticker;
         obj.prevside = predata.side;
+        obj.prevticker = predata.ticker;
         obj.prevmessage = predata.message;
       }
     }
@@ -107,8 +107,8 @@ class bitFlyer {
   }
   setNoOrder(order_message = '') {
     var obj = this.getData();
-    obj.p_ticker1 = this.getTicker();
     obj.p_side1 = '';
+    obj.p_ticker1 = this.getTicker();
     obj.p_message1 = order_message;
     this.setPreviousData(obj);
   }
