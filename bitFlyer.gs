@@ -17,10 +17,11 @@ class bitFlyer {
       side              : 'SELL',       // 買い注文の場合は "BUY", 売り注文の場合は "SELL" 
       price             : 0,            // "LIMIT" を指定した場合は価格
       size              : 0.001,        // 注文数量(～0.001)
-      minute_to_expire  : 300,          // 期限切れまでの時間を分で指定
+      minute_to_expire  : 300,	        // 期限切れまでの時間を分で指定
       time_in_force     : 'GTC'         // 執行数量条件 を "GTC", "IOC", "FOK"
     };
     this.BITFLYER_MAIL =  '';           // 取引通知（取引結果をメールする場合はアドレスを指定）
+    this.BITFLYER_FEERATE = 0.07;       // 売買手数料(0.01～0.15% BTC)
     this.PREVIOUS_DATANAME = 'data.txt';// 前回データ格納ファイル名
     this.PREVIOUS_DATACOUNT =  10;      // 前回履歴の保存件数
   }
@@ -41,8 +42,7 @@ class bitFlyer {
   }
   sendOrderMail(para) {
     if( this.BITFLYER_MAIL != '' ) {
-      var m_subject = '',
-          m_body = '';
+      var m_subject = '',m_body = '';
       if( 'error' in para ) {
         m_subject = "BTC自動売買[エラー]" ;
         m_body = JSON.stringify(para);
@@ -59,21 +59,42 @@ class bitFlyer {
       return data;
     } else {
       var obj = Object.assign({}, this.BITFLYER_OPTION );
-      obj.ticker = obj.prevticker = 0;
-      obj.prevside = obj.prevmessage = obj.message = '';
+      obj.ticker = 0;
       this.setDataOption(obj);
       return obj;
     }
   }
   setData( obj ){
     this.setDataOption(obj);
-    if( 'side' in obj ) obj.p_side1 =  obj.side;
-    if( 'ticker' in obj ) obj.p_ticker1 =  obj.ticker;
-    this.setPreviousData(obj);
+    if( 'side' in obj && 'ticker' in obj ) {
+      obj.p_side1 =  obj.side;
+      obj.p_size1 =  obj.size;
+      obj.p_ticker1 =  obj.ticker;
+      this.setPreviousData(obj);
+      var approxincome = 0,approxfee = 0;
+      if( parseInt( obj.prevticker ) > 0 ) {
+        if( obj.side === 'SELL' ) {
+          approxincome = (parseInt(obj.ticker)*parseFloat(obj.size)) - (parseInt(obj.prevticker)*parseFloat(obj.prevsize));
+        } else {
+          approxincome = (parseInt(obj.prevticker)*parseFloat(obj.prevsize)) - (parseInt(obj.ticker)*parseFloat(obj.size));
+        }
+        approxfee = (parseInt(obj.ticker)*parseFloat(obj.size)) * this.BITFLYER_FEERATE * 0.01;
+      }
+      obj.approxincome = parseInt(obj.approxincome) + parseInt(approxincome);
+      obj.approxfee = parseInt(obj.approxfee) + parseInt(approxfee);
+    } else {
+      Logger.log("CONSISTENCY ERROR:" + JSON.stringify(obj));
+    }
+    this.setDataFile(this.PREVIOUS_DATANAME,JSON.stringify(obj, null, 2));
   }
   setDataOption (obj) {
+      obj.prevside = '';
+      obj.prevticker = obj.prevsize = 0;
+      obj.prevmessage = '';
+      obj.approxfee = obj.approxincome = 0;
       for (var i = 1; i <= this.PREVIOUS_DATACOUNT; i++) {
         obj['p_side' + i ] =  '';
+        obj['p_size' + i ] =  '';
         obj['p_ticker' + i ] = 0;
         obj['p_message' + i ] =  '';
       }
@@ -83,16 +104,17 @@ class bitFlyer {
     if( predata ) {
       for (var i = 1; i < this.PREVIOUS_DATACOUNT; i++) {
           if( ( 'p_side' + i ) in predata ) obj['p_side' + (i + 1) ] =  predata['p_side' + i];
+          if( ( 'p_size' + i ) in predata ) obj['p_size' + (i + 1) ] =  predata['p_size' + i];
           if( ( 'p_ticker' + i ) in predata ) obj['p_ticker' + (i + 1) ] =  predata['p_ticker' + i];
           if( ( 'p_message' + i ) in predata ) obj['p_message' + (i + 1) ] =  predata['p_message' + i];
       }
       if( obj.p_side1 != '' ) {
         obj.prevside = predata.side;
+        obj.prevsize = predata.size;
         obj.prevticker = predata.ticker;
         obj.prevmessage = predata.message;
       }
     }
-    this.setDataFile(this.PREVIOUS_DATANAME,JSON.stringify(obj, null, 2));
   }
   // Trading methods
   setSendOrder(order_type = '',order_message = '') {
@@ -108,10 +130,11 @@ class bitFlyer {
   }
   setNoOrder(order_message = '') {
     var obj = this.getData();
-    obj.p_side1 = '';
+    obj.p_side1 = obj.p_size1 = '';
     obj.p_ticker1 = this.getTicker();
     obj.p_message1 = order_message;
     this.setPreviousData(obj);
+    this.setDataFile(this.PREVIOUS_DATANAME,JSON.stringify(obj, null, 2));
   }
   // API usage method
   getTicker() {
