@@ -113,6 +113,8 @@ class bitFlyer {
         obj.prevsize = predata.size;
         obj.prevticker = predata.ticker;
         obj.prevmessage = predata.message;
+        obj.approxincome = predata.approxincome;
+        obj.approxfee = predata.approxfee;
       }
     }
   }
