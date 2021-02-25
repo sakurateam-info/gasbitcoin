@@ -82,6 +82,7 @@ class bitFlyer {
       }
       obj.approxincome = parseInt(obj.approxincome) + parseInt(approxincome);
       obj.approxfee = parseInt(obj.approxfee) + parseInt(approxfee);
+      obj.tradecount = parseInt(obj.tradecount) + 1;
     } else {
       Logger.log("CONSISTENCY ERROR:" + JSON.stringify(obj));
     }
@@ -91,7 +92,7 @@ class bitFlyer {
       obj.prevside = '';
       obj.prevticker = obj.prevsize = 0;
       obj.prevmessage = '';
-      obj.approxfee = obj.approxincome = 0;
+      obj.tradecount = obj.approxfee = obj.approxincome = 0;
       for (var i = 1; i <= this.PREVIOUS_DATACOUNT; i++) {
         obj['p_side' + i ] =  '';
         obj['p_size' + i ] =  '';
@@ -115,6 +116,7 @@ class bitFlyer {
         obj.prevmessage = predata.message;
         obj.approxincome = predata.approxincome;
         obj.approxfee = predata.approxfee;
+        obj.tradecount = predata.tradecount;
       }
     }
   }
