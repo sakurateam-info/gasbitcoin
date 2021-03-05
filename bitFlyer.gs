@@ -74,11 +74,8 @@ class bitFlyer {
       this.setPreviousData(obj);
       var approxincome = 0,approxfee = 0;
       if( parseInt( obj.prevticker ) > 0 ) {
-        if( obj.side === 'SELL' ) {
+        if( obj.side === 'SELL' )
           approxincome = (parseInt(obj.ticker)*parseFloat(obj.size)) - (parseInt(obj.prevticker)*parseFloat(obj.prevsize));
-        } else {
-          approxincome = (parseInt(obj.prevticker)*parseFloat(obj.prevsize)) - (parseInt(obj.ticker)*parseFloat(obj.size));
-        }
         approxfee = (parseInt(obj.ticker)*parseFloat(obj.size)) * this.BITFLYER_FEERATE * 0.01;
       }
       obj.approxincome = parseInt(obj.approxincome) + parseInt(approxincome);
