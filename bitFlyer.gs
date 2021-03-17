@@ -71,6 +71,7 @@ class bitFlyer {
       obj.p_side1 =  obj.side;
       obj.p_size1 =  obj.size;
       obj.p_ticker1 =  obj.ticker;
+      obj.p_message1 =  obj.message;
       this.setPreviousData(obj);
       var approxincome = 0,approxfee = 0;
       if( parseInt( obj.prevticker ) > 0 ) {
