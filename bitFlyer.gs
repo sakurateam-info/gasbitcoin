@@ -23,7 +23,7 @@ class bitFlyer {
     this.BITFLYER_MAIL =  '';           // 取引通知（取引結果をメールする場合はアドレスを指定）
     this.BITFLYER_FEERATE = 0.07;       // 売買手数料(0.01～0.15% BTC)
     this.BITFLYER_ISORDER = false;      // 取引状態
-    this.PREVIOUS_DATANAME = 'data.txt';// 前回データ格納ファイル名
+    this.PREVIOUS_DATANAME = 'data.json';// 前回データ格納ファイル名
     this.PREVIOUS_DATACOUNT =  10;      // 前回履歴の保存件数
   }
   // Data storage methods
