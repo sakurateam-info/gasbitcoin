@@ -210,7 +210,8 @@ class bitFlyer {
     const folder = DriveApp.getFolderById(folderid);
     const file = this.getDataByName(folder, filename);
     if( file ){
-      return file.getBlob().getDataAsString("utf-8");
+      const filedata = file.getBlob().getDataAsString("utf-8"); 
+      return filedata ? filedata : null;
     } else {
       return null;
     }
